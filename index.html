@@ -1,778 +1,202 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI入門・データサイエンス確認テスト（動画完全一致版）</title>
-    <style>
-        body {
-            font-family: "Helvetica Neue", Arial, sans-serif;
-            background-color: #f4f6f9;
-            color: #333;
-            line-height: 1.6;
-            margin: 0;
-            padding: 20px;
-        }
-        .container {
-            max-width: 850px;
-            margin: 0 auto;
-            background: #fff;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-        }
-        h1 {
-            font-size: 24px;
-            text-align: center;
-            color: #1a365d;
-            border-bottom: 2px solid #e2e8f0;
-            padding-bottom: 15px;
-            margin-bottom: 25px;
-        }
-        .question-card {
-            background: #fafafa;
-            border: 1px solid #e1e8ed;
-            border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 25px;
-        }
-        .question-title {
-            font-size: 16px;
-            font-weight: bold;
-            color: #2b6cb0;
-            margin-bottom: 15px;
-        }
-        .matching-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 15px;
-        }
-        .matching-table td {
-            padding: 10px;
-            border-bottom: 1px solid #e2e8f0;
-        }
-        .matching-table td:first-child {
-            width: 60%;
-            background: #edf2f7;
-            font-size: 14px;
-        }
-        select {
-            width: 100%;
-            padding: 8px;
-            border-radius: 4px;
-            border: 1px solid #cbd5e0;
-            background-color: #fff;
-            font-size: 14px;
-        }
-        .options-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-        .options-list li {
-            margin-bottom: 8px;
-        }
-        .options-list label {
-            display: flex;
-            align-items: center;
-            background: #fff;
-            border: 1px solid #cbd5e0;
-            padding: 10px 15px;
-            border-radius: 6px;
-            cursor: pointer;
-        }
-        .options-list input {
-            margin-right: 12px;
-        }
-        .explanation {
-            display: none;
-            margin-top: 15px;
-            padding: 12px 15px;
-            border-radius: 6px;
-            font-size: 14px;
-        }
-        .explanation.correct {
-            background-color: #c6f6d5;
-            color: #22543d;
-            border-left: 5px solid #38a169;
-        }
-        .explanation.incorrect {
-            background-color: #fed7d7;
-            color: #742a2a;
-            border-left: 5px solid #e53e3e;
-        }
-        .btn-submit {
-            display: block;
-            width: 100%;
-            padding: 15px;
-            background-color: #3182ce;
-            color: white;
-            font-size: 18px;
-            font-weight: bold;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            margin-top: 30px;
-        }
-        .btn-submit:hover {
-            background-color: #2b6cb0;
-        }
-        .score-board {
-            display: none;
-            text-align: center;
-            background: #ebf8ff;
-            border: 2px solid #3182ce;
-            border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 30px;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI入門 小テスト（全40問）</title>
+  <style>
+    :root {
+      --primary-color: #0056b3;
+      --bg-color: #f4f6f9;
+      --card-bg: #ffffff;
+      --text-color: #333333;
+      --border-color: #dddddd;
+      --correct-bg: #e6f4ea;
+      --incorrect-bg: #fce8e6;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      line-height: 1.6;
+      margin: 0;
+      padding: 15px;
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      background: var(--card-bg);
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    }
+    h1 {
+      text-align: center;
+      color: var(--primary-color);
+      font-size: 1.5rem;
+      margin-bottom: 20px;
+    }
+    .q-card {
+      background: #fafafa;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 15px;
+      margin-bottom: 20px;
+    }
+    .q-card.correct { background-color: var(--correct-bg); border-color: #a8dab5; }
+    .q-card.incorrect { background-color: var(--incorrect-bg); border-color: #f5c6cb; }
+    .q-title {
+      font-weight: bold;
+      margin-bottom: 10px;
+      font-size: 1.05rem;
+    }
+    .badge-multi {
+      background-color: #e65100;
+      color: #fff;
+      font-size: 0.75rem;
+      padding: 2px 6px;
+      border-radius: 4px;
+      margin-left: 5px;
+      vertical-align: middle;
+    }
+    .option-list {
+      list-style: none;
+      padding-left: 0;
+      margin: 10px 0;
+    }
+    .option-list li {
+      margin-bottom: 8px;
+    }
+    label {
+      cursor: pointer;
+      display: inline-block;
+      width: 100%;
+    }
+    select {
+      width: 100%;
+      padding: 8px;
+      border-radius: 6px;
+      border: 1px solid var(--border-color);
+      margin-top: 5px;
+      font-size: 0.95rem;
+    }
+    .match-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+    .match-table td {
+      padding: 6px 0;
+    }
+    .btn-submit {
+      display: block;
+      width: 100%;
+      padding: 15px;
+      background-color: var(--primary-color);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+    .btn-submit:hover { opacity: 0.9; }
+    #result-box {
+      margin-top: 20px;
+      padding: 15px;
+      background: #e9ecef;
+      border-radius: 8px;
+      text-align: center;
+      font-size: 1.2rem;
+      font-weight: bold;
+      display: none;
+    }
+    .explanation {
+      font-size: 0.85rem;
+      color: #555;
+      margin-top: 8px;
+      padding-top: 8px;
+      border-top: 1px dashed #ccc;
+    }
+  </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>AI入門・データサイエンス確認テスト（動画完全一致形式）</h1>
-    
-    <div id="score-board" class="score-board">
-        <h2 id="score-text">採点結果: 0 / 40</h2>
-    </div>
-
-    <form id="quiz-form">
-        <div id="quiz-container"></div>
-        <button type="button" class="btn-submit" onclick="checkAnswers()">採点する</button>
-    </form>
+  <h1>AI入門 小テスト（全40問）</h1>
+  <form id="quiz-form">
+    <div id="quiz-container"></div>
+    <button type="button" class="btn-submit" onclick="gradeQuiz()">採点する</button>
+  </form>
+  <div id="result-box"></div>
 </div>
 
 <script>
 const quizData = [
-    {
-        id: 1,
-        type: "single",
-        question: "ある商品の月別売上の推移と、店舗別売上の構成比をそれぞれ表示したい。グラフの組み合わせとして適切なものはどれか。",
-        options: [
-            "a. 月別売上の推移は折れ線グラフ、店舗別売上の構成比は円グラフ",
-            "b. 月別売上の推移は散布図、店舗別売上の構成比は折れ線グラフ",
-            "c. 月別売上の推移は棒グラフ、店舗別売上の構成比も、必ず散布図",
-            "d. 月別売上の推移は円グラフ、店舗別売上の構成比は散布図"
-        ],
-        answer: "a",
-        explanation: "正解：月別売上の推移は折れ線グラフ、店舗別売上の構成比は円グラフ"
-    },
-    {
-        id: 2,
-        type: "matching",
-        question: "生成AIに関する用語と説明を正しく対応させなさい。",
-        dropdownOptions: ["大規模言語モデル (LLM)", "生成AI", "基盤モデル"],
-        items: [
-            { text: "AIに文章や画像等を正確に理解させ、文書を生成するモデル", answer: "大規模言語モデル (LLM)" },
-            { text: "学習したデータを基に文、画像、音声などのコンテンツを生成するAI", answer: "生成AI" },
-            { text: "膨大なデータで訓練され、さまざまな課題に適用できる汎用モデル", answer: "基盤モデル" }
-        ],
-        explanation: "正解：<br>1. 大規模言語モデル (LLM)<br>2. 生成AI<br>3. 基盤モデル"
-    },
-    {
-        id: 3,
-        type: "matching",
-        question: "機械学習の応用と説明を正しく対応させなさい。",
-        dropdownOptions: ["需要予測", "異常検知", "レコメンデーション", "画像分類"],
-        items: [
-            { text: "気温や曜日などから将来の売上や人出等を予測する", answer: "需要予測" },
-            { text: "通常と異なる異物やパターン等を検出する", answer: "異常検知" },
-            { text: "利用者に適した商品や情報を推薦する", answer: "レコメンデーション" },
-            { text: "画像をあらかじめ定めたカテゴリに分ける", answer: "画像分類" }
-        ],
-        explanation: "正解：<br>1. 需要予測<br>2. 異常検知<br>3. レコメンデーション<br>4. 画像分類"
-    },
-    {
-        id: 4,
-        type: "single",
-        question: "ジョン・サールのいう「強いAI」の説明として、適切なものはどれか。",
-        options: [
-            "a. 適切にプログラムされたコンピューターは、人間のような心をもつと考える立場",
-            "b. はいずれも人間の知能を超えると考える立場",
-            "c. AIを心をもつのではなく、知的な処理を実現する道具と考える立場",
-            "d. AIを心をもつのではなく、知的な処理を実現する道具と考える立場"
-        ],
-        answer: "a",
-        explanation: "正解：a. 適切にプログラムされたコンピューターは、人間のような心をもつと考える立場"
-    },
-    {
-        id: 5,
-        type: "single",
-        question: "コンピューターにおける情報の単位について、適切なものを1つ選びなさい。（複数選択）",
-        options: [
-            "a. 1 Byteは、0から255までの256通りの状態を表す単位である",
-            "b. 1 Byteは、8bitをまとめた基本的な単位である",
-            "c. 1 Byteは、0か1かという2つの状態を表す基本的な単位である",
-            "d. 1 bitは、0か1かという2つの状態を表す最小単位である"
-        ],
-        answer: "b",
-        explanation: "正解：1 Byteは、8bitをまとめた基本的な単位である（1 Byte = 8bit）"
-    },
-    {
-        id: 6,
-        type: "matching",
-        question: "学習方法と説明を正しく対応させなさい。",
-        dropdownOptions: ["教師あり学習", "教師なし学習", "強化学習"],
-        items: [
-            { text: "正解を与えず、データの特徴やグループを見つける", answer: "教師なし学習" },
-            { text: "入力と正解を組にしたデータから、分類や予測を学ぶ", answer: "教師あり学習" },
-            { text: "行動から得られる報酬を最大化する行動ルールを学ぶ", answer: "強化学習" }
-        ],
-        explanation: "正解：<br>1. 教師なし学習<br>2. 教師あり学習<br>3. 強化学習"
-    },
-    {
-        id: 7,
-        type: "single",
-        question: "エキスパートシステムの特徴として適切なものはどれか。",
-        options: [
-            "a. 大量のデータから特徴を自動的に学習する",
-            "b. 専門家の知識をルール化して推論を行う",
-            "c. 感情や倫理を理解して意思決定する",
-            "d. 経験から自律的に行動ルールを獲得する"
-        ],
-        answer: "b",
-        explanation: "正解：b. 専門家の知識をルール化して推論を行う"
-    },
-    {
-        id: 8,
-        type: "single",
-        question: "訓練データでは正解率が96%だったが、未知のデータでは65%に低下した。適切な対応はどれか。",
-        options: [
-            "a. 学習データの不足が疑われるため、テストデータをすべて訓練に使う",
-            "b. 未知のデータに学習できないことは、問題にならない",
-            "c. 外れ値がないことが原因なので、意図的に誤ったデータを追加する",
-            "d. 過学習が疑われるため、訓練用とテスト用にデータを分けるなどして汎化性能を検証する"
-        ],
-        answer: "d",
-        explanation: "正解：d. 過学習が疑われるため、訓練用とテスト用にデータを分けるなどして汎化性能を検証する"
-    },
-    {
-        id: 9,
-        type: "single",
-        question: "生成AIで作った画像と音声をSNS公開する。公開時の確認として適切なものをひとつ選べ。（複数選択）",
-        options: [
-            "a. 技術的に生成できたコンテンツは、社会的影響を考えず自由に公開できる",
-            "b. 既存の著作物への依存性や類似性、利用規約などを確認する",
-            "c. AI生成物には常に自動的に著作権が発生するので、既存作品との類似性は確認しない",
-            "d. 実在人物の偽画像・偽音声として誤認・侮辱を生まないかを確認する"
-        ],
-        answer: "b",
-        explanation: "正解：既存の著作物への依存性や類似性、利用規約などを確認する"
-    },
-    {
-        id: 10,
-        type: "matching",
-        question: "次の課題と、主に用いる学習方法を正しく対応させなさい。",
-        dropdownOptions: ["教師あり学習", "教師なし学習", "強化学習"],
-        items: [
-            { text: "正解付きメールから迷惑メールを判定する", answer: "教師あり学習" },
-            { text: "正解ラベルのない顧客データからグループを見つける", answer: "教師なし学習" },
-            { text: "試行錯誤しながらゲームの得点を最大化する行動を学ぶ", answer: "強化学習" }
-        ],
-        explanation: "正解：<br>1. 教師あり学習<br>2. 教師なし学習<br>3. 強化学習"
-    },
-    {
-        id: 11,
-        type: "single",
-        question: "相関係数が0.85であるとき、2つの変数の関係として適切なものはどれか。",
-        options: [
-            "a. 強い負の相関",
-            "b. 強い正の相関",
-            "c. 相関がほとんどない",
-            "d. 弱い正の相関"
-        ],
-        answer: "b",
-        explanation: "正解：b. 強い正の相関"
-    },
-    {
-        id: 12,
-        type: "matching",
-        question: "AI研究の年代と中心となった技術を正しく対応させなさい。",
-        dropdownOptions: ["推論と探索", "知識とエキスパートシステム", "ビッグデータ、機械学習、深層学習"],
-        items: [
-            { text: "第1次AIブーム（1950年代後半〜1960年代）", answer: "推論と探索" },
-            { text: "第2次AIブーム（1980年代）", answer: "知識とエキスパートシステム" },
-            { text: "第3次AIブーム（2010年代〜）", answer: "ビッグデータ、機械学習、深層学習" }
-        ],
-        explanation: "正解：<br>1. 推論と探索<br>2. 知識とエキスパートシステム<br>3. ビッグデータ、機械学習、深層学習"
-    },
-    {
-        id: 13,
-        type: "single",
-        question: "商品の価格が高くなるほど販売数が少なくなる傾向が見られた。この関係の説明として適切なものはどれか。",
-        options: [
-            "a. 相関がない",
-            "b. 正の相関がある",
-            "c. 負の相関がある",
-            "d. 因果関係がある"
-        ],
-        answer: "c",
-        explanation: "正解：c. 負の相関がある"
-    },
-    {
-        id: 14,
-        type: "matching",
-        question: "階層型ニューラルネットワークの各層の説明を正しく対応させなさい。",
-        dropdownOptions: ["入力層", "隠れ層", "出力層"],
-        items: [
-            { text: "特徴量などの入力データを受け取る", answer: "入力層" },
-            { text: "重み付けや活性化関数による変換を行う", answer: "隠れ層" },
-            { text: "分類結果や予測値を出力する", answer: "出力層" }
-        ],
-        explanation: "正解：<br>1. 入力層<br>2. 隠れ層<br>3. 出力層"
-    },
-    {
-        id: 15,
-        type: "matching",
-        question: "音声アシスタントが「明日の天気を教えて」という問いを受け、音声で回答する。入力から回答までに使う機能と役割を正しく対応させなさい。",
-        dropdownOptions: ["音声認識", "自然言語処理", "情報検索", "音声合成"],
-        items: [
-            { text: "1. 利用者の音声を文字データに変換する", answer: "音声認識" },
-            { text: "2. 利用者の意図内容を解析する", answer: "自然言語処理" },
-            { text: "3. 必要な天気情報を取得", answer: "情報検索" },
-            { text: "4. 回答文を音声に変換する", answer: "音声合成" }
-        ],
-        explanation: "正解：<br>1. 音声認識<br>2. 自然言語処理<br>3. 情報検索<br>4. 音声合成"
-    },
-    {
-        id: 16,
-        type: "single",
-        question: "気温だけから売上を予測するモデルをA、気温、広告費から売上を予測するモデルをBとする。分析手法の組み合わせとして適切なものはどれか。",
-        options: [
-            "a. モデルAは重回帰分析、モデルBは単回帰分析",
-            "b. モデルAもモデルBも次元削減",
-            "c. モデルAは単回帰分析、モデルBは重回帰分析",
-            "d. モデルAもモデルBもクラスタリング"
-        ],
-        answer: "c",
-        explanation: "正解：c. モデルAは単回帰分析、モデルBは重回帰分析"
-    },
-    {
-        id: 17,
-        type: "matching",
-        question: "ビッグデータの3つの特性を正しく対応させなさい。",
-        dropdownOptions: ["Velocity (速度)", "Variety (多様性)", "Volume (量)"],
-        items: [
-            { text: "データが高頻度に生成される", answer: "Velocity (速度)" },
-            { text: "文書、画像、音声、ログなど多種多様な形式を含む", answer: "Variety (多様性)" },
-            { text: "収集・保存されるデータ量が大規模である", answer: "Volume (量)" }
-        ],
-        explanation: "正解：<br>1. Velocity (速度)<br>2. Variety (多様性)<br>3. Volume (量)"
-    },
-    {
-        id: 18,
-        type: "matching",
-        question: "PPDACサイクルの各段階を正しく対応させなさい。",
-        dropdownOptions: ["Problem", "Plan", "Data", "Analysis", "Conclusion"],
-        items: [
-            { text: "問題を把握し、課題を明確にする", answer: "Problem" },
-            { text: "仮説を設定し、調査・分析を計画する", answer: "Plan" },
-            { text: "必要なデータを収集・整理する", answer: "Data" },
-            { text: "結果を整理し、結論や次の課題を示す", answer: "Conclusion" }
-        ],
-        explanation: "正解：<br>1. Problem<br>2. Plan<br>3. Data<br>4. Conclusion"
-    },
-    {
-        id: 19,
-        type: "single",
-        question: "多数の特徴量を持つデータについて、重要な情報をできるだけ保持しながら、より少数の特徴量で表現する処理はどれか。",
-        options: [
-            "a. 次元削減",
-            "b. 回帰",
-            "c. クラスタリング",
-            "d. 分類"
-        ],
-        answer: "a",
-        explanation: "正解：a. 次元削減"
-    },
-    {
-        id: 20,
-        type: "single",
-        question: "ある店舗では「雨の日は来店客数が減る」という予想を立て、気温と来店者数のデータを集めて確かめた。この取り組みに当てはまるデータ分析の役割はどれか。",
-        options: [
-            "a. 判断支援",
-            "b. 仮説検証",
-            "c. 知識発見",
-            "d. 活動代替"
-        ],
-        answer: "b",
-        explanation: "正解：b. 仮説検証"
-    },
-    {
-        id: 21,
-        type: "matching",
-        question: "データの表現方法を正しく対応させなさい。",
-        dropdownOptions: ["画像", "動画", "文字"],
-        items: [
-            { text: "小さな点（ピクセル）ごとに色のデータを割り当てる", answer: "画像" },
-            { text: "複数の画像を時間軸に連続して表示する", answer: "動画" },
-            { text: "文字と数値に対応させた表を用いる", answer: "文字" }
-        ],
-        explanation: "正解：<br>1. 画像<br>2. 動画<br>3. 文字"
-    },
-    {
-        id: 22,
-        type: "single",
-        question: "データの中に、他の大部分から大きく離れた値（外れ値）が見つかった。分析前の対応として適切なものはどれか。",
-        options: [
-            "a. 外れ値だけを残し、他のデータを削除する",
-            "b. 外れ値は必ず誤りなので、理由を確認せず削除する",
-            "c. 外れ値は分析結果に影響しないため、確認しない",
-            "d. 入力ミスか実際に起きた稀な事象かを確認し、分析への影響を検討する"
-        ],
-        answer: "d",
-        explanation: "正解：d. 入力ミスか実際に起きた稀な事象かを確認し、分析への影響を検討する"
-    },
-    {
-        id: 23,
-        type: "single",
-        question: "データ駆動型社会の説明として適切なものはどれか。",
-        options: [
-            "a. AIが人間の作業を代行する社会",
-            "b. 情報そのものやメディアの流通に価値を置く社会",
-            "c. ビッグデータを活用して課題解決や意思決定に役立てる社会",
-            "d. 経験や勘だけを用いて意思決定する社会"
-        ],
-        answer: "c",
-        explanation: "正解：c. ビッグデータを活用して課題解決や意思決定に役立てる社会"
-    },
-    {
-        id: 24,
-        type: "multiple",
-        question: "生成AIを使って自分の専門分野におけるAI活用事例を調べ、レポートを作成する。適切な行動をふたつ選べ。（複数選択）",
-        options: [
-            "a. 提示された事例や参考文言を一次資料や信頼できる情報源で確認する",
-            "b. 事実確認をしない文面で、生成AIが示したなら参考文言として記載する",
-            "c. 対象分野、目的、出力形式などを具体的に指示する",
-            "d. 文章が自然なら、事実確認をせずそのまま提出する"
-        ],
-        answer: ["a", "c"],
-        explanation: "正解：a, c （一次資料で確認する / 目的・形式などを具体的に指示する）"
-    },
-    {
-        id: 25,
-        type: "multiple",
-        question: "Society 5.0の説明として適切なものを2つ選びなさい。（複数選択）",
-        options: [
-            "a. サイバー空間とフィジカル空間を高度に融合させる",
-            "b. 現実世界から情報を収集せず、仮想空間だけで社会を運営する",
-            "c. 人間の判断をすべてAIに置き換えることを目的とする",
-            "d. 経済発展と社会的課題の解決を両立する人間中心の社会を目指す"
-        ],
-        answer: ["a", "d"],
-        explanation: "正解：a, d （サイバー空間とフィジカル空間の高度な融合 / 人間中心の社会を目指す）"
-    },
-    {
-        id: 26,
-        type: "single",
-        question: "AIの普及によって仕事の内容や雇用構造の変化が生じ、AIを利用できる人とできない人の不平が生じる可能性を検討する。この検討が主に該当するELSIの観点はどれか。",
-        options: [
-            "a. 社会的課題 (Social)",
-            "b. 法的課題 (Legal)",
-            "c. 記憶容量の課題 (Storage)",
-            "d. 倫理的課題 (Ethical)"
-        ],
-        answer: "a",
-        explanation: "正解：a. 社会的課題 (Social)"
-    },
-    {
-        id: 27,
-        type: "single",
-        question: "利用者がまだ見ていない映画の評価値を、Aと好みが似た利用者の評価から予測して推薦した。この方法として適切なものはどれか。",
-        options: [
-            "a. 画像認識",
-            "b. 線形回帰",
-            "c. 協調フィルタリング",
-            "d. 異常検知"
-        ],
-        answer: "c",
-        explanation: "正解：c. 協調フィルタリング"
-    },
-    {
-        id: 28,
-        type: "single",
-        question: "機械学習における「学習」の説明として適切なものはどれか。",
-        options: [
-            "a. 入力データを変更せず、そのまま保存すること",
-            "b. 人間がすべての判断ルールにあらかじめ書き込むこと",
-            "c. データから予測や分類のための規則や表現を獲得すること",
-            "d. コンピューターが感情や意識を持つこと"
-        ],
-        answer: "c",
-        explanation: "正解：c. データから予測や分類のための規則や表現を獲得すること"
-    },
-    {
-        id: 29,
-        type: "multiple",
-        question: "クラウドサービスの説明として適切なものを2つ選びなさい。（複数選択）",
-        options: [
-            "a. 利用すればセキュリティ対策が不要になる",
-            "b. 保存したデータは常に誰にでも公開される",
-            "c. 記憶装置、CPU、ソフトウェアなどをインターネット経由で利用できる",
-            "d. 必要に応じて計算資源を柔軟に増減できる"
-        ],
-        answer: ["c", "d"],
-        explanation: "正解：c, d （インターネット経由で利用できる / 計算資源を柔軟に増減できる）"
-    },
-    {
-        id: 30,
-        type: "single",
-        question: "混同行列の目的として適切なものはどれか。",
-        options: [
-            "a. データ間の距離を使ってクラスタを作る",
-            "b. モデルの計算量を削減する",
-            "c. 学習データの分散を求める",
-            "d. 分類モデルの間違い方を確認する"
-        ],
-        answer: "d",
-        explanation: "正解：d. 分類モデルの間違い方を確認する"
-    },
-    {
-        id: 31,
-        type: "single",
-        question: "健康管理アプリが利用者の位置情報など健康を新たに収集したい。開始前の対応として適切なものはどれか。",
-        options: [
-            "a. クラウドに保存すれば安全なので、告知は行わない",
-            "b. 匿名の利用者であれば、プライバシーや権利を検討する必要はない",
-            "c. 必要な同意を得て、目的に必要な範囲のデータを安全に収集する",
-            "d. 分析に役立ちそうな情報は、利用者に知らせずすべて収集する"
-        ],
-        answer: "c",
-        explanation: "正解：c. 必要な同意を得て、目的に必要な範囲のデータを安全に収集する"
-    },
-    {
-        id: 32,
-        type: "multiple",
-        question: "過去の採用データで訓練したAIが、特定の属性を持つ求職者を不当に評価しないよう、導入前に行うべき対応をもつ選びなさい。（複数選択）",
-        options: [
-            "a. 過去のデータをそのまま使えば客観的なので、結果をそのまま採用する",
-            "b. 訓練データや評価結果に偏りがないかを調べ、必要に応じてデータやモデルを見直す",
-            "c. 判断根拠を説明できるようにし、最終判断と問題発生時の責任を担う人を明確にする",
-            "d. 精度が高ければ、倫理・法律・社会への影響は検討しない"
-        ],
-        answer: ["b", "c"],
-        explanation: "正解：b, c （偏りがないかを調べ修正する / 判断根拠を説明し責任者を明確にする）"
-    },
-    {
-        id: 33,
-        type: "single",
-        question: "深層学習の特徴に関する説明として適切なものはどれか。",
-        options: [
-            "a. 少量のデータだけを用いれば、常に高い精度が得られる",
-            "b. 複数の隠れ層を持つニューラルネットワークを用いて特徴表現を学習する",
-            "c. 利用する特徴量を人間が事前に細かく設計する必要がある",
-            "d. 単純な線形モデルのみで複雑なパターンを表現する"
-        ],
-        answer: "b",
-        explanation: "正解：b. 複数の隠れ層を持つニューラルネットワークを用いて特徴表現を学習する"
-    },
-    {
-        id: 34,
-        type: "single",
-        question: "病気のスクリーニングで、多少の誤判定が増えても、病気の人の見落としをできるだけ減らしたい。特に重視すべき指標はどれか。",
-        options: [
-            "a. 相似係数",
-            "b. 適合率",
-            "c. 決定係数",
-            "d. 再現率"
-        ],
-        answer: "d",
-        explanation: "正解：d. 再現率 (Recall)"
-    },
-    {
-        id: 35,
-        type: "matching",
-        question: "データの収集方法と具体例を正しく対応させなさい。",
-        dropdownOptions: ["センサー / IoTデバイス", "クローリング", "クラウドソーシング"],
-        items: [
-            { text: "プログラムがWeb上の公開ページを巡回して情報を集める", answer: "クローリング" },
-            { text: "インターネットを介して多数の人にデータの収集や作成を依頼する", answer: "クラウドソーシング" },
-            { text: "ネットワークに接続された機器から測定集積を集める", answer: "センサー / IoTデバイス" }
-        ],
-        explanation: "正解：<br>1. クローリング<br>2. クラウドソーシング<br>3. センサー / IoTデバイス"
-    },
-    {
-        id: 36,
-        type: "single",
-        question: "決定木の説明として適切なものはどれか。",
-        options: [
-            "a. 似た利用者の評価だけを用いて商品を推薦する",
-            "b. 条件に従ってデータを分けながら、木のような構造で分類や予測を行う",
-            "c. ノイズを少しずつ取り除いて画像を生み出す",
-            "d. 1本の間引きを行って、すべてのデータを分析する"
-        ],
-        answer: "b",
-        explanation: "正解：b. 条件に従ってデータを分けながら、木のような構造で分類や予測を行う"
-    },
-    {
-        id: 37,
-        type: "multiple",
-        question: "日本におけるAI生成物と著作権の考え方に関する説明として適切なものを2つ選びなさい。（複数選択）",
-        options: [
-            "a. 生成AIを使えば、既存作品と同じ表現を自由に利用できる",
-            "b. AI生成物に著作権が認められるかは、人間の創作的意図と創作的寄与が重要な要素になる",
-            "c. 既存の著作物に依存し、その表現が類似している場合は、著作権侵害となる可能性がある",
-            "d. AIが生成したものには、どのような場合でも自動的に著作権が発生する"
-        ],
-        answer: ["b", "c"],
-        explanation: "正解：b, c （創作的意図と寄与が重要 / 既存作品と類似する場合は著作権侵害になり得る）"
-    },
-    {
-        id: 38,
-        type: "single",
-        question: "ある分類モデルの実行結果を確認したところ、実際にはクラスAである20件のうち、15件をクラスA、5件をクラスBと予測していた。この結果から読み取れることはどれか。",
-        options: [
-            "a. クラスAはすべて正しく分類されている",
-            "b. クラスAの5件をクラスBと誤分類している",
-            "c. 分類モデルの正解率は100%である",
-            "d. クラスBの5件をクラスAと誤分類している"
-        ],
-        answer: "b",
-        explanation: "正解：b. クラスAの5件をクラスBと誤分類している"
-    },
-    {
-        id: 39,
-        type: "single",
-        question: "著名人が発信しているように見える動画がSNSで拡散されているが、出所が不明である。適切な対応はどれか。",
-        options: [
-            "a. 公式発表や複数の信頼できる情報源を確認してから判断する",
-            "b. 生成AIで作られた可能性があれば、内容を確認せず否定して共有する",
-            "c. 多数の人が共有していれば事実と判断し、利用する",
-            "d. 映像が自然なら本物と判断し、すぐに共有する"
-        ],
-        answer: "a",
-        explanation: "正解：a. 公式発表や複数の信頼できる情報源を確認してから判断する"
-    },
-    {
-        id: 40,
-        type: "single",
-        question: "データ利用の同意方法の説明として適切なものをひとつ選びなさい。",
-        options: [
-            "a. オプトインとオプトアウトは、どちらも同意を確認せずにデータを利用する方式である",
-            "b. オプトインは自動的に利用を開始し、オプトアウトは事前承諾がある場合だけ利用する",
-            "c. オプトインは利用者が事前に承認し、オプトアウトは利用者が拒否の意思を表示して利用を停止する",
-            "d. オプトインとオプトアウトの違いは、データをクラウドに保存するかどうかだけである"
-        ],
-        answer: "c",
-        explanation: "正解：c. オプトインは利用者が事前に承認し、オプトアウトは利用者が拒否の意思を表示して利用を停止する"
-    }
-];
-
-function renderQuiz() {
-    const container = document.getElementById('quiz-container');
-    container.innerHTML = '';
-
-    quizData.forEach((q, index) => {
-        const card = document.createElement('div');
-        card.className = 'question-card';
-
-        let bodyHTML = '';
-
-        if (q.type === "matching") {
-            // プルダウン選択型（動画問2などの完全再現）
-            bodyHTML += `<table class="matching-table">`;
-            q.items.forEach((item, subIndex) => {
-                let options = `<option value="">Choose...</option>`;
-                q.dropdownOptions.forEach(opt => {
-                    options += `<option value="${opt}">${opt}</option>`;
-                });
-                bodyHTML += `
-                    <tr>
-                        <td>${item.text}</td>
-                        <td><select id="q${q.id}_${subIndex}">${options}</select></td>
-                    </tr>
-                `;
-            });
-            bodyHTML += `</table>`;
-        } else if (q.type === "multiple") {
-            // 複数選択チェックボックス型
-            bodyHTML += `<ul class="options-list">`;
-            q.options.forEach(opt => {
-                const optVal = opt.charAt(0);
-                bodyHTML += `
-                    <li>
-                        <label>
-                            <input type="checkbox" name="q${q.id}" value="${optVal}">
-                            ${opt}
-                        </label>
-                    </li>
-                `;
-            });
-            bodyHTML += `</ul>`;
-        } else {
-            // 単一選択ラジオボタン型
-            bodyHTML += `<ul class="options-list">`;
-            q.options.forEach(opt => {
-                const optVal = opt.charAt(0);
-                bodyHTML += `
-                    <li>
-                        <label>
-                            <input type="radio" name="q${q.id}" value="${optVal}">
-                            ${opt}
-                        </label>
-                    </li>
-                `;
-            });
-            bodyHTML += `</ul>`;
-        }
-
-        card.innerHTML = `
-            <div class="question-title">問 ${index + 1}. ${q.question}</div>
-            ${bodyHTML}
-            <div id="exp-${q.id}" class="explanation"></div>
-        `;
-        container.appendChild(card);
-    });
-}
-
-function checkAnswers() {
-    let score = 0;
-
-    quizData.forEach((q) => {
-        const expDiv = document.getElementById(`exp-${q.id}`);
-        let isCorrect = true;
-
-        if (q.type === "matching") {
-            q.items.forEach((item, subIndex) => {
-                const selectElem = document.getElementById(`q${q.id}_${subIndex}`);
-                if (!selectElem || selectElem.value !== item.answer) {
-                    isCorrect = false;
-                }
-            });
-        } else if (q.type === "multiple") {
-            const checkedElems = Array.from(document.querySelectorAll(`input[name="q${q.id}"]:checked`)).map(el => el.value);
-            if (checkedElems.length !== q.answer.length || !q.answer.every(ans => checkedElems.includes(ans))) {
-                isCorrect = false;
-            }
-        } else {
-            const selected = document.querySelector(`input[name="q${q.id}"]:checked`);
-            if (!selected || selected.value !== q.answer) {
-                isCorrect = false;
-            }
-        }
-
-        if (isCorrect) {
-            score++;
-            expDiv.className = 'explanation correct';
-            expDiv.innerHTML = `<strong>⭕️ 正解！</strong><br>${q.explanation}`;
-        } else {
-            expDiv.className = 'explanation incorrect';
-            expDiv.innerHTML = `<strong>❌ 不正解...</strong><br>${q.explanation}`;
-        }
-        expDiv.style.display = 'block';
-    });
-
-    const scoreBoard = document.getElementById('score-board');
-    const scoreText = document.getElementById('score-text');
-    scoreText.innerText = `採点結果: ${score} / ${quizData.length} 点 (${Math.round(score / quizData.length * 100)}%)`;
-    scoreBoard.style.display = 'block';
-    
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-}
-
-window.onload = renderQuiz;
-</script>
-
-</body>
-</html>
+  {
+    id: 1, type: "single",
+    question: "ある商品の月別売上の推移と、店舗別売上の構成比をそれぞれ表示したい。グラフの組み合わせとして適切なのはどれか。",
+    options: [
+      { key: "a", text: "月別売上の推移は折れ線グラフ、店舗別売上の構成比は折れ線グラフ" },
+      { key: "b", text: "月別売上の推移は散布図、店舗別売上の構成比は折れ線グラフ" },
+      { key: "c", text: "月別売上の推移は折れ線グラフ、店舗別売上の構成比は円グラフ" },
+      { key: "d", text: "月別売上の推移は円グラフ、店舗別売上の構成比は散布図" }
+    ],
+    answer: ["c"],
+    exp: "正解：月別売上の推移は折れ線グラフ、店舗別売上の構成比は円グラフ"
+  },
+  {
+    id: 2, type: "match",
+    question: "生成AIに関する用語と説明を正しく対応させなさい。",
+    items: [
+      { key: "基盤モデル", label: "膨大かつ多様なデータで訓練され、さまざまな課題に適用できる大規模モデル" },
+      { key: "生成AI", label: "学習したデータを基に、文章、画像、音声などのコンテンツを生成するAI" },
+      { key: "大規模言語モデル（LLM）", label: "入力文に続く言葉を確率的に予測し、文章を生成するモデル" }
+    ]
+  },
+  {
+    id: 3, type: "match",
+    question: "機械学習の応用と説明を正しく対応させなさい。",
+    items: [
+      { key: "画像分類", label: "画像をあらかじめ定めたカテゴリに分ける" },
+      { key: "レコメンデーション", label: "利用者に適した商品や情報を推薦する" },
+      { key: "需要予測", label: "気温や曜日などから将来の売上や利用量を予測する" },
+      { key: "異常検知", label: "通常と異なる稀なパターンや値を検出する" }
+    ]
+  },
+  {
+    id: 4, type: "single",
+    question: "ジョン・サールのいう「強いAI」の説明として、適切なものはどれか。",
+    options: [
+      { key: "a", text: "AIを人間の心を研究するための道具として利用する立場" },
+      { key: "b", text: "適切にプログラムされたコンピューターは、人間のような心をもつと考える立場" },
+      { key: "c", text: "AIは心を持つのではなく、知的な処理を実現する道具だと考える立場" },
+      { key: "d", text: "AIはいずれ必ず人間の知能を超える考える立場" }
+    ],
+    answer: ["b"],
+    exp: "正解：適切にプログラムされたコンピューターは、人間のような心をもつと考える立場"
+  },
+  {
+    id: 5, type: "multi",
+    question: "コンピューターにおける情報の単位について、適切なものを2つ選びなさい。<span class='badge-multi'>複数選択</span>",
+    options: [
+      { key: "a", text: "1 bitは、0か1かという2つの状態を表す最小単位である" },
+      { key: "b", text: "1 Byteは、0か1かという2つの状態を表す基本的な単位である" },
+      { key: "c", text: "1 Byteは、8 bitをまとめた基本的な単位である" },
+      { key: "d", text: "1 bitは、0から255までの256通りの状態を表す単位である" }
+    ],
+    answer: ["a", "c"],
+    exp: "正解：a, c (1 bitは0か1かを表す最小単位、1 Byteは8 bitをまとめた基本単位)"
+  },
+  {
+    id: 6, type: "match",
+    question: "階層型ニューラルネットワークの各層と説明を正しく対応させなさい。",
+    items: [
+      { key: "入力層", label: "特徴量などの入力データを受け取る" },
+      { key: "隠れ層", label: "重み付けや活性化関数による変換を行う" },
+      { key: "出力層", label: "分類結果や予測値を出力する" }
+    ]
+  },
+  {
+    id: 7, type: "match",
