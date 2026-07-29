@@ -88,9 +88,13 @@
     .match-table td {
       padding: 6px 0;
     }
+    .btn-group {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+    }
     .btn-submit {
-      display: block;
-      width: 100%;
+      flex: 2;
       padding: 15px;
       background-color: var(--primary-color);
       color: #fff;
@@ -99,9 +103,19 @@
       font-size: 1.1rem;
       font-weight: bold;
       cursor: pointer;
-      margin-top: 20px;
     }
-    .btn-submit:hover { opacity: 0.9; }
+    .btn-reset {
+      flex: 1;
+      padding: 15px;
+      background-color: #6c757d;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 1.0rem;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .btn-submit:hover, .btn-reset:hover { opacity: 0.9; }
     #result-box {
       margin-top: 20px;
       padding: 15px;
@@ -127,7 +141,10 @@
   <h1>AI入門 小テスト（全40問）</h1>
   <form id="quiz-form">
     <div id="quiz-container"></div>
-    <button type="button" class="btn-submit" onclick="gradeQuiz()">採点する</button>
+    <div class="btn-group">
+      <button type="button" class="btn-submit" onclick="gradeQuiz()">採点する</button>
+      <button type="button" class="btn-reset" onclick="resetQuiz()">もう一度解く</button>
+    </div>
   </form>
   <div id="result-box"></div>
 </div>
@@ -200,3 +217,438 @@ const quizData = [
   },
   {
     id: 7, type: "match",
+    question: "ビッグデータの3つの特性を正しく対応させなさい。",
+    items: [
+      { key: "Volume（量）", label: "収集・保存されるデータの量が大規模である" },
+      { key: "Velocity（速度）", label: "データが高速に生成される" },
+      { key: "Variety（多様性）", label: "文章、画像、音声、ログなど多様な形式を含む" }
+    ]
+  },
+  {
+    id: 8, type: "single",
+    question: "訓練データでは正解率が98%だったが、未知のデータでは65%に低下した。適切な対応はどれか。",
+    options: [
+      { key: "a", text: "過学習が疑われるため、訓練用とテスト用にデータを分けるなどして汎化性能検証する" },
+      { key: "b", text: "外れ値がないことが原因なので、意図的に誤ったデータを追加する" },
+      { key: "c", text: "学習データの不足が疑われるため、テストデータをすべて訓練に使う" },
+      { key: "d", text: "未知のデータに正解できないことは、機械学習では問題にならない" }
+    ],
+    answer: ["a"],
+    exp: "正解：過学習が疑われるため、訓練用とテスト用にデータを分けるなどして汎化性能を検証する"
+  },
+  {
+    id: 9, type: "single",
+    question: "商品の価格が高くなるほど販売数が少なくなる傾向が散布図に表れた。この関係の説明として適切なものはどれか。",
+    options: [
+      { key: "a", text: "因果関係がある" },
+      { key: "b", text: "正の相関がある" },
+      { key: "c", text: "負の相関がある" },
+      { key: "d", text: "相関がない" }
+    ],
+    answer: ["c"],
+    exp: "正解：負の相関がある"
+  },
+  {
+    id: 10, type: "match",
+    question: "機械学習の応用と説明を正しく対応させなさい。",
+    items: [
+      { key: "画像分類", label: "画像をあらかじめ定めたカテゴリに分ける" },
+      { key: "レコメンデーション", label: "利用者に適した商品や情報を推薦する" },
+      { key: "需要予測", label: "気温や曜日などから将来の売上や利用量を予測する" },
+      { key: "異常検知", label: "通常と異なる稀なパターンや値を検出する" }
+    ]
+  },
+  {
+    id: 11, type: "single",
+    question: "多数の特徴量を持つデータについて、重要な情報をできるだけ保ちながら、より少数の特徴量で表現する処理はどれか。",
+    options: [
+      { key: "a", text: "クラスタリング" },
+      { key: "b", text: "次元削減" },
+      { key: "c", text: "回帰" },
+      { key: "d", text: "分類" }
+    ],
+    answer: ["b"],
+    exp: "正解：次元削減"
+  },
+  {
+    id: 12, type: "multi",
+    question: "過去の採用データで訓練したAIが、特定の属性を持つ応募者を不利益に評価していた。導入前に行うべき対応を2つ選びなさい。<span class='badge-multi'>複数選択</span>",
+    options: [
+      { key: "a", text: "過去のデータを使っていれば客観的なので、結果をそのまま採用する" },
+      { key: "b", text: "判断根拠の説明ができるようにし、最終判断と問題発生時の責任を担う人を明確にする" },
+      { key: "c", text: "訓練データや評価結果に偏りがないかを調べ、必要に応じてデータやモデルを見直す" },
+      { key: "d", text: "精度が高ければ、倫理・法律・社会への影響は検討しない" }
+    ],
+    answer: ["b", "c"],
+    exp: "正解：b, c"
+  },
+  {
+    id: 13, type: "match",
+    question: "音声アシスタントが「明日の天気を教えて」という依頼を受け、音声で回答する。入力から回答までに使う技術と役割を正しく対応させなさい。",
+    items: [
+      { key: "1. 利用者の音声を文字データに変換する", label: "音声認識" },
+      { key: "2. 利用者の依頼内容を解析する", label: "自然言語処理" },
+      { key: "3. 必要な天気情報を取得する", label: "情報検索" },
+      { key: "4. 回答文を音声に変換する", label: "音声合成" }
+    ]
+  },
+  {
+    id: 14, type: "multi",
+    question: "コンピューターにおける情報の単位について、適切なものを2つ選びなさい。<span class='badge-multi'>複数選択</span>",
+    options: [
+      { key: "a", text: "1 bitは、0か1かという2つの状態を表す最小単位である" },
+      { key: "b", text: "1 Byteは、0か1かという2つの状態を表す基本的な単位である" },
+      { key: "c", text: "1 Byteは、8 bitをまとめた基本的な単位である" },
+      { key: "d", text: "1 bitは、0から255までの256通りの状態を表す単位である" }
+    ],
+    answer: ["a", "c"],
+    exp: "正解：a, c"
+  },
+  {
+    id: 15, type: "single",
+    question: "機械学習における「学習」の説明として適切なものはどれか。",
+    options: [
+      { key: "a", text: "入力データを変更せず、そのまま保存すること" },
+      { key: "b", text: "人間がすべての判断ルールをあらかじめ書き込むこと" },
+      { key: "c", text: "コンピューターが感情や意識を持つこと" },
+      { key: "d", text: "データから予測や分類のための規則や表現を獲得すること" }
+    ],
+    answer: ["d"],
+    exp: "正解：データから予測や分類のための規則や表現を獲得すること"
+  },
+  {
+    id: 16, type: "multi",
+    question: "生成AIを使って自分の専門分野におけるAI活用事例を調べ、レポートの下書きを作る。適切な行動を2つ選びなさい。<span class='badge-multi'>複数選択</span>",
+    options: [
+      { key: "a", text: "実在しない文献でも、生成AIが提示したなら参考文献として記載する" },
+      { key: "b", text: "文章が自然なら、事実確認をせずそのまま提出する" },
+      { key: "c", text: "対象分野、目的、出力形式などを具体的に指示する" },
+      { key: "d", text: "提示された事例や参考文献を一次資料や信頼できる情報源で確認する" }
+    ],
+    answer: ["c", "d"],
+    exp: "正解：c, d"
+  },
+  {
+    id: 17, type: "match",
+    question: "AI研究の時代と中心となった技術を正しく対応させなさい。",
+    items: [
+      { key: "第1次AIブーム（1950年代後半〜1960年代）", label: "推論と探索" },
+      { key: "第2次AIブーム（1980年代〜1990年代）", label: "知識とエキスパートシステム" },
+      { key: "第3次AIブーム（2010年代〜）", label: "ビッグデータ、機械学習、深層学習" }
+    ]
+  },
+  {
+    id: 18, type: "single",
+    question: "決定木の説明として適切なものはどれか。",
+    options: [
+      { key: "a", text: "似た利用者の評価だけを用いて商品を推薦する" },
+      { key: "b", text: "条件に従ってデータを分けながら、木のような構造で分類や予測を行う" },
+      { key: "c", text: "ノイズを少しずつ取り除いて画像を生成する" },
+      { key: "d", text: "1本の直線だけを用いて、すべてのデータを分類する" }
+    ],
+    answer: ["b"],
+    exp: "正解：条件に従ってデータを分けながら、木のような構造で分類や予測を行う"
+  },
+  {
+    id: 19, type: "single",
+    question: "ある分類モデルの混同行列を確認したところ、実際にはクラスAである20件のうち、15件をクラスA、5件をクラスBと予測していた。この結果から読み取れることはどれか。",
+    options: [
+      { key: "a", text: "クラスBの5件をクラスAと誤分類している" },
+      { key: "b", text: "クラスAの5件をクラスBと誤分類している" },
+      { key: "c", text: "分類モデルの正解率は必ず100%である" },
+      { key: "d", text: "クラスAはすべて正しく分類されている" }
+    ],
+    answer: ["b"],
+    exp: "正解：クラスAの5件をクラスBと誤分類している"
+  },
+  {
+    id: 20, type: "single",
+    question: "混同行列の目的として適切なものはどれか。",
+    options: [
+      { key: "a", text: "データ間の距離を使ってクラスタを作る" },
+      { key: "b", text: "学習データの分散を求める" },
+      { key: "c", text: "分類モデルの間違い方を確認する" },
+      { key: "d", text: "モデルの計算量を削減する" }
+    ],
+    answer: ["c"],
+    exp: "正解：分類モデルの間違い方を確認する"
+  },
+  {
+    id: 21, type: "match",
+    question: "学習方法と説明を正しく対応させなさい。",
+    items: [
+      { key: "教師あり学習", label: "入力と正解を組にしたデータから、分類や予測を学ぶ" },
+      { key: "教師なし学習", label: "正解を与えず、データの特徴やグループを見つける" },
+      { key: "強化学習", label: "行動から得られる報酬を最大化する行動ルールを学ぶ" }
+    ]
+  },
+  {
+    id: 22, type: "match",
+    question: "次の課題と、主に用いる学習方法を正しく対応させなさい。",
+    items: [
+      { key: "正解ラベルのない顧客データから似た集団を見つける", label: "教師なし学習" },
+      { key: "試行錯誤しながらゲームの得点を最大化する行動を学ぶ", label: "強化学習" },
+      { key: "正解付きメールから迷惑メールを判定する", label: "教師あり学習" }
+    ]
+  },
+  {
+    id: 23, type: "single",
+    question: "データの中に、他の大部分から大きく離れた値が1件見つかった。分析前の対応として適切なものはどれか。",
+    options: [
+      { key: "a", text: "入力ミスか実際に起きた稀な事象かを確認し、分析への影響を検討する" },
+      { key: "b", text: "外れ値は分析結果に影響しないため、確認しない" },
+      { key: "c", text: "外れ値だけを残し、他のデータを削除する" },
+      { key: "d", text: "外れ値は必ず誤りなので、理由を確認せず削除する" }
+    ],
+    answer: ["a"],
+    exp: "正解：入力ミスか実際に起きた稀な事象かを確認し、分析への影響を検討する"
+  },
+  {
+    id: 24, type: "single",
+    question: "データ利用への同意方法の説明として適切なものを選びなさい。",
+    options: [
+      { key: "a", text: "オプトインは利用者が事前に承諾し、オプトアウトは利用者が拒否の意思を示して利用を停止する" },
+      { key: "b", text: "オプトインは自動的に利用を開始し、オプトアウトは事前承諾がある場合だけ利用する" },
+      { key: "c", text: "オプトインとオプトアウトの違いは、データをクラウドに保存するかどうかだけである" },
+      { key: "d", text: "オプトインとオプトアウトは、どちらも同意を確認せずにデータを利用する方法である" }
+    ],
+    answer: ["a"],
+    exp: "正解：オプトインは利用者が事前に承諾し、オプトアウトは利用者が拒否の意思を示して利用を停止する"
+  },
+  {
+    id: 25, type: "single",
+    question: "利用者がまだ見ていない映画の評価を、Aと好みが似た利用者の評価から予測して推薦した。この方法として適切なものはどれか。",
+    options: [
+      { key: "a", text: "線形回帰" },
+      { key: "b", text: "異常検知" },
+      { key: "c", text: "協調フィルタリング" },
+      { key: "d", text: "画像認識" }
+    ],
+    answer: ["c"],
+    exp: "正解：協調フィルタリング"
+  },
+  {
+    id: 26, type: "single",
+    question: "病気のスクリーニングで、多少の誤検出が増えても、病気の人見逃しをできるだけ減らしたい。特に重視すべき指標はどれか。",
+    options: [
+      { key: "a", text: "適合率" },
+      { key: "b", text: "再現率" },
+      { key: "c", text: "決定係数" },
+      { key: "d", text: "相関係数" }
+    ],
+    answer: ["b"],
+    exp: "正解：再現率"
+  },
+  {
+    id: 27, type: "multi",
+    question: "Society 5.0の説明として適切なものを2つ選びなさい。<span class='badge-multi'>複数選択</span>",
+    options: [
+      { key: "a", text: "サイバー空間とフィジカル空間を高度に融合させる" },
+      { key: "b", text: "現実世界から情報を収集せず、仮想空間だけでの社会を運営する" },
+      { key: "c", text: "人間の判断をすべてAIに置き換えることを目的とする" },
+      { key: "d", text: "経済発展と社会的課題の解決を両立する人間中心の社会を目指す" }
+    ],
+    answer: ["a", "d"],
+    exp: "正解：a, d"
+  },
+  {
+    id: 28, type: "single",
+    question: "ある店舗で「雨の日は来店客数が減る」という予想を立て、天候と来店客数のデータを集めて確かめた。この取り組みに当てはまるデータ分析の役割はどれか。",
+    options: [
+      { key: "a", text: "判断支援" },
+      { key: "b", text: "知識発見" },
+      { key: "c", text: "活動代替" },
+      { key: "d", text: "仮説検証" }
+    ],
+    answer: ["d"],
+    exp: "正解：仮説検証"
+  },
+  {
+    id: 29, type: "multi",
+    question: "日本における生成AIと著作権の考え方に関する説明として適切なものを2つ選びなさい。<span class='badge-multi'>複数選択</span>",
+    options: [
+      { key: "a", text: "AI生成物に著作物性が認められるかは、人の創作的意図と創作的寄与が重要な判断要素になる" },
+      { key: "b", text: "生成AIを使えば、既存作品と同じ表現を自由に利用できる" },
+      { key: "c", text: "既存の著作物に依拠し、その表現が類似している場合は、著作権侵害となる可能性がある" },
+      { key: "d", text: "AIが生成したものには、どのような場合でも自動的に著作権が発生する" }
+    ],
+    answer: ["a", "c"],
+    exp: "正解：a, c"
+  },
+  {
+    id: 30, type: "single",
+    question: "データ駆動型社会の説明として適切なものはどれか。",
+    options: [
+      { key: "a", text: "AIが人間の作業を代替する社会" },
+      { key: "b", text: "経験や勘だけを用いて意思決定する社会" },
+      { key: "c", text: "情報そのものやメディアの流通に価値を置く社会" },
+      { key: "d", text: "ビッグデータを活用して課題解決や意思決定に役立てる社会" }
+    ],
+    answer: ["d"],
+    exp: "正解：ビッグデータを活用して課題解決や意思決定に役立てる社会"
+  },
+  {
+    id: 31, type: "match",
+    question: "データの収集方法と具体例を正しく対応させなさい。",
+    items: [
+      { key: "ネットワークに接続された機器から測定値を集める", label: "センサー・IoTデバイス" },
+      { key: "インターネットを介して多数の人にデータの収集や作成を依頼する", label: "クラウドソーシング" },
+      { key: "プログラムがWeb上の公開ページを巡回して情報を集める", label: "クローリング" }
+    ]
+  },
+  {
+    id: 32, type: "match",
+    question: "PPDACサイクルの各段階と説明を正しく対応させなさい。",
+    items: [
+      { key: "Problem", label: "問題を把握し、課題を明確にする" },
+      { key: "Plan", label: "仮説を設定し、調査・分析を計画する" },
+      { key: "Data", label: "必要なデータを収集・整理する" },
+      { key: "Analysis", label: "表、グラフ、統計などを用いて分析する" },
+      { key: "Conclusion", label: "結果を解釈し、結論や次の課題を示す" }
+    ]
+  },
+  {
+    id: 33, type: "multi",
+    question: "生成AIで作った画像と音声をSNSで公開する。公開前の確認として適切なものを2つ選びなさい。<span class='badge-multi'>複数選択</span>",
+    options: [
+      { key: "a", text: "既存の著作物への依拠性や類似性、利用規約などを確認する" },
+      { key: "b", text: "技術的に生成できたコンテンツは、社会的影響を考えず自由に公開できる" },
+      { key: "c", text: "実在人物の偽画像・偽音声として誤解や被害を生まないか確認する" },
+      { key: "d", text: "AI生成物には常に自動的に著作権が発生するので、既存作品との類似性は確認しない" }
+    ],
+    answer: ["a", "c"],
+    exp: "正解：a, c"
+  },
+  {
+    id: 34, type: "single",
+    question: "著名人が発言しているように見える動画がSNSで拡散されているが、出所が不明である。適切な対応はどれか。",
+    options: [
+      { key: "a", text: "多数の人が共有していれば事実と判断する" },
+      { key: "b", text: "公式発表や複数の信頼できる情報源を確認してから判断する" },
+      { key: "c", text: "生成AIで作られた可能性があれば、内容を確認せず偽物と断定する" },
+      { key: "d", text: "映像が自然なら本物と判断し、すぐに共有する" }
+    ],
+    answer: ["b"],
+    exp: "正解：公式発表や複数の信頼できる情報源を確認してから判断する"
+  },
+  {
+    id: 35, type: "single",
+    question: "AIの普及によって仕事の内容や雇用構造が変化し、AIを利用できる人とできない人の格差が広がる可能性を検討する。この検討が主に該当するELSIの観点はどれか。",
+    options: [
+      { key: "a", text: "法的課題（Legal）" },
+      { key: "b", text: "記憶容量の課題（Storage）" },
+      { key: "c", text: "倫理的課題（Ethical）" },
+      { key: "d", text: "社会的課題（Social）" }
+    ],
+    answer: ["d"],
+    exp: "正解：社会的課題（Social）"
+  },
+  {
+    id: 36, type: "single",
+    question: "気温だけから売上を予測するモデルAと、気温、曜日、広告費から売上を予測するモデルBを作成した。分析手法の組み合わせとして適切なものはどれか。",
+    options: [
+      { key: "a", text: "モデルAもモデルBもクラスタリング" },
+      { key: "b", text: "モデルAもモデルBも次元削減" },
+      { key: "c", text: "モデルAは単回帰分析、モデルBは重回帰分析" },
+      { key: "d", text: "モデルAは重回帰分析、モデルBは単回帰分析" }
+    ],
+    answer: ["c"],
+    exp: "正解：モデルAは単回帰分析、モデルBは重回帰分析"
+  },
+  {
+    id: 37, type: "single",
+    question: "相関係数が0.85であるとき、2つの変数の関係として適切なものはどれか。",
+    options: [
+      { key: "a", text: "強い負の相関" },
+      { key: "b", text: "相関がほとんどない" },
+      { key: "c", text: "強い正の相関" },
+      { key: "d", text: "強い因果関係" }
+    ],
+    answer: ["c"],
+    exp: "正解：強い正の相関"
+  },
+  {
+    id: 38, type: "single",
+    question: "エキスパートシステムの特徴として適切なものはどれか。",
+    options: [
+      { key: "a", text: "大量のデータから特徴を自動的に学習する" },
+      { key: "b", text: "経験から自律的に行動ルールを獲得する" },
+      { key: "c", text: "専門家の知識をルール化して推論を行う" },
+      { key: "d", text: "感情や倫理を理解して意思決定する" }
+    ],
+    answer: ["c"],
+    exp: "正解：専門家の知識をルール化して推論を行う"
+  },
+  {
+    id: 39, type: "single",
+    question: "深層学習の特徴に関する説明として適切なものはどれか。",
+    options: [
+      { key: "a", text: "単純な線形モデルのみで複雑なパターンを表現する" },
+      { key: "b", text: "少量のデータだけを用いれば、常に高い精度を得られる" },
+      { key: "c", text: "複数の隠れ層を持つニューラルネットワークを用いて特徴表現を学習する" },
+      { key: "d", text: "利用する特徴量を人間が事前に細かく設計する必要がある" }
+    ],
+    answer: ["c"],
+    exp: "正解：複数の隠れ層を持つニューラルネットワークを用いて特徴表現を学習する"
+  },
+  {
+    id: 40, type: "single",
+    question: "ある商品の月別売上の推移と、店舗別売上の構成比をそれぞれ表示したい。グラフの組み合わせとして適切なのはどれか。",
+    options: [
+      { key: "a", text: "月別売上の推移は散布図、店舗別売上の構成比は折れ線グラフ" },
+      { key: "b", text: "月別売上の推移は折れ線グラフ、店舗別売上の構成比は折れ線グラフ" },
+      { key: "c", text: "月別売上の推移は折れ線グラフ、店舗別売上の構成比は円グラフ" },
+      { key: "d", text: "月別売上の推移は円グラフ、店舗別売上の構成比は散布図" }
+    ],
+    answer: ["c"],
+    exp: "正解：月別売上の推移は折れ線グラフ、店舗別売上の構成比は円グラフ"
+  }
+];
+
+function renderQuiz() {
+  const container = document.getElementById("quiz-container");
+  container.innerHTML = "";
+
+  quizData.forEach((q) => {
+    const card = document.createElement("div");
+    card.className = "q-card";
+    card.id = `card-${q.id}`;
+
+    let html = `<div class="q-title">問 ${q.id}. ${q.question}</div>`;
+
+    if (q.type === "single" || q.type === "multi") {
+      html += `<ul class="option-list">`;
+      q.options.forEach((opt) => {
+        const inputType = q.type === "multi" ? "checkbox" : "radio";
+        html += `
+          <li>
+            <label>
+              <input type="${inputType}" name="q_${q.id}" value="${opt.key}">
+              ${opt.key}. ${opt.text}
+            </label>
+          </li>
+        `;
+      });
+      html += `</ul>`;
+    } else if (q.type === "match") {
+      html += `<table class="match-table">`;
+      const optionsList = q.items.map(i => i.label);
+      
+      q.items.forEach((item, idx) => {
+        html += `
+          <tr>
+            <td style="width: 50%; padding-right: 10px;">${item.key}</td>
+            <td style="width: 50%;">
+              <select name="q_${q.id}_${idx}">
+                <option value="">-- 選択してください --</option>
+                ${optionsList.map(opt => `<option value="${opt}">${opt}</option>`).join('')}
+              </select>
+            </td>
+          </tr>
+        `;
+      });
+      html += `</table>`;
+    }
+
+    html += `<div class="explanation" id="exp-${q.id}" style="display:none;"></div>`;
+    card
